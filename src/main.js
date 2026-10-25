@@ -869,6 +869,114 @@ function waitForResponse(timeoutMs) {
   })
 }
 
+/** Deep links: ?view=results|optimize|localization|eeg|home  & optional ?demo=1 seed */
+function applyQueryBootstrap() {
+  const params = new URLSearchParams(location.search)
+  const view = params.get('view')
+  if (params.get('demo') === '1') {
+    const seed = {
+      participant_id: 'demo-pilot',
+      chosen_angle_deg: -45,
+      timestamp: new Date().toISOString(),
+      localization_ok: true,
+      selection_label: 'chosen',
+      selection_reason:
+        'Largest reproducible LEFT-hit improvement over no-cue (+12.0 pp) without right/FA cost.',
+      notes: 'Demo seed',
+      protocol: 'recenter-spatial-cue-v1',
+      headphones_required: true,
+      eeg_required: false,
+      per_angle_results: [
+        {
+          angle_deg: -60,
+          label: '-60°',
+          left_hit_rate: 0.62,
+          right_hit_rate: 0.7,
+          fa_rate: 0.08,
+          median_correct_rt_ms: 440,
+          n_trials: 8,
+        },
+        {
+          angle_deg: -45,
+          label: '-45°',
+          left_hit_rate: 0.75,
+          right_hit_rate: 0.68,
+          fa_rate: 0.05,
+          median_correct_rt_ms: 410,
+          n_trials: 8,
+        },
+        {
+          angle_deg: -30,
+          label: '-30°',
+          left_hit_rate: 0.58,
+          right_hit_rate: 0.72,
+          fa_rate: 0.1,
+          median_correct_rt_ms: 455,
+          n_trials: 8,
+        },
+        {
+          angle_deg: null,
+          label: 'NO-CUE',
+          left_hit_rate: 0.5,
+          right_hit_rate: 0.7,
+          fa_rate: 0.06,
+          median_correct_rt_ms: 468,
+          n_trials: 8,
+        },
+      ],
+      held_out_block: {
+        note: 'Held-out must not be presented as calibration.',
+        results: [
+          {
+            angle_deg: -60,
+            label: '-60°',
+            left_hit_rate: 0.6,
+            right_hit_rate: 0.68,
+            fa_rate: 0.1,
+            median_correct_rt_ms: 450,
+          },
+          {
+            angle_deg: -45,
+            label: '-45°',
+            left_hit_rate: 0.7,
+            right_hit_rate: 0.65,
+            fa_rate: 0.05,
+            median_correct_rt_ms: 420,
+          },
+          {
+            angle_deg: -30,
+            label: '-30°',
+            left_hit_rate: 0.55,
+            right_hit_rate: 0.7,
+            fa_rate: 0.12,
+            median_correct_rt_ms: 460,
+          },
+          {
+            angle_deg: null,
+            label: 'NO-CUE',
+            left_hit_rate: 0.48,
+            right_hit_rate: 0.72,
+            fa_rate: 0.08,
+            median_correct_rt_ms: 475,
+          },
+        ],
+      },
+      honesty: CALIBRATION_SCHEMA.honesty,
+    }
+    saveToLocalStorage(seed)
+    state.exportPayload = seed
+    state.participantId = 'demo-pilot'
+    state.localizationOk = true
+  }
+  if (view && ['home', 'localization', 'optimize', 'results', 'eeg'].includes(view)) {
+    state.view = view
+    if (view === 'results' && !state.exportPayload) {
+      state.exportPayload = loadFromLocalStorage()
+    }
+  }
+}
+
 // Initial paint + subscribe
+applyQueryBootstrap()
 subscribe(() => render())
 render()
