@@ -29,7 +29,7 @@ export const state = {
   itiRemainingMs: 0,
   conditionTrialsDone: [],
   lastConditionSummary: null,
-  optimizeUi: 'idle', // idle | ready_block | live | condition_done | done
+  optimizeUi: 'idle', // idle | instructions | ready_block | live | condition_done | done
   lastKey: null,
   warnLocalization: false,
 }

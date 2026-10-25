@@ -344,11 +344,23 @@ label {
   height: 28px;
   position: relative;
   opacity: 0;
-  transition: opacity 0.08s linear;
 }
 
-.fixation.on {
+.fixation.on,
+.fixation.static-fix {
   opacity: 1;
+}
+
+/* Static cross — never animated, never toggled during Optimize star task */
+.fixation.static-fix {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 1 !important;
+  animation: none !important;
+  transition: none !important;
+  z-index: 2;
 }
 
 .fixation::before,
@@ -371,6 +383,96 @@ label {
   height: 22px;
 }
 
+.star {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2.4rem;
+  line-height: 1;
+  color: #f7faf8;
+  text-shadow: 0 0 14px rgba(244, 255, 249, 0.65);
+  z-index: 3;
+  pointer-events: none;
+  user-select: none;
+}
+
+.star.left {
+  left: 18%;
+}
+
+.star.right {
+  right: 18%;
+}
+
+.star[hidden],
+.key-registered[hidden],
+.stage-feedback[hidden] {
+  display: none !important;
+}
+
+.key-registered {
+  position: absolute;
+  left: 50%;
+  top: 28%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.space-instruction {
+  margin: 0 0 1rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid rgba(61, 220, 151, 0.4);
+  border-radius: 10px;
+  background: rgba(61, 220, 151, 0.1);
+  color: var(--text);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+.space-instruction kbd {
+  font-family: var(--mono);
+  font-size: 0.95em;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.15rem 0.5rem;
+}
+
+.instruct-list {
+  margin: 0 0 1.25rem;
+  padding-left: 1.25rem;
+  color: var(--muted);
+  max-width: 52ch;
+}
+
+.instruct-list li {
+  margin-bottom: 0.55rem;
+}
+
+.instruct-list strong {
+  color: var(--text);
+}
+
+.star-task {
+  outline: none;
+}
+
+.star-task:focus {
+  outline: none;
+}
+
+.star-stage {
+  cursor: default;
+}
+
 .target-dot {
   position: absolute;
   width: 18px;
@@ -380,7 +482,6 @@ label {
   box-shadow: 0 0 12px rgba(244, 255, 249, 0.55);
   opacity: 0;
   transform: scale(0.85);
-  transition: opacity 0.05s linear;
 }
 
 .target-dot.on {
@@ -725,7 +826,8 @@ table.data tr.chosen-row td:first-child {
   }
 }
 
-.waiting .fixation.on {
+/* Pulse only on localization wait — never on Optimize static cross */
+.waiting .fixation.on:not(.static-fix) {
   animation: pulse-soft 1.2s ease-in-out infinite;
 }
 

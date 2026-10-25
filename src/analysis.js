@@ -19,9 +19,12 @@ export function summarizeCondition(trials) {
   const right = trials.filter((t) => t.target === 'right')
   const catchTrials = trials.filter((t) => t.target === 'catch')
 
-  const leftHits = left.filter((t) => t.response === 'left')
-  const rightHits = right.filter((t) => t.response === 'right')
-  const falseAlarms = catchTrials.filter((t) => t.response === 'left' || t.response === 'right')
+  // Detection task: SPACEBAR = hit (response === 'space'). Legacy L/R keys still count.
+  const isPress = (t) =>
+    t.response === 'space' || t.response === 'left' || t.response === 'right'
+  const leftHits = left.filter(isPress)
+  const rightHits = right.filter(isPress)
+  const falseAlarms = catchTrials.filter(isPress)
 
   const leftCorrectRTs = leftHits
     .map((t) => t.rtMs)
