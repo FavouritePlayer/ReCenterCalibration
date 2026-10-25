@@ -23,8 +23,13 @@ export const state = {
   selection: null,
   exportPayload: null,
   /** Live trial UI */
-  trialPhase: 'idle', // idle | fixation | cue | target | response | feedback
+  trialPhase: 'idle', // idle | ready | fixation | cue | target | response | feedback | iti | condition_done
   currentTrial: null,
+  lastFeedback: null, // 'correct' | 'miss' | 'catch_ok' | 'false_alarm' | null
+  itiRemainingMs: 0,
+  conditionTrialsDone: [],
+  lastConditionSummary: null,
+  optimizeUi: 'idle', // idle | ready_block | live | condition_done | done
   lastKey: null,
   warnLocalization: false,
 }
@@ -61,8 +66,25 @@ export function resetSessionKeepId() {
     exportPayload: null,
     trialPhase: 'idle',
     currentTrial: null,
+    lastFeedback: null,
+    itiRemainingMs: 0,
+    conditionTrialsDone: [],
+    lastConditionSummary: null,
+    optimizeUi: 'idle',
     warnLocalization: false,
   })
+}
+
+export function conditionLabel(angleDeg) {
+  return angleDeg === null || angleDeg === undefined ? 'NO-CUE' : `${angleDeg}°`
+}
+
+export function buildAngleOrder() {
+  const angles = [
+    ...CONFIG.candidateAnglesDeg,
+    ...(CONFIG.includeNoCue ? [null] : []),
+  ]
+  return shuffle(angles)
 }
 
 export function trialsPerCondition() {

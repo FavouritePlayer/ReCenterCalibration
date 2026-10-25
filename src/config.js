@@ -56,13 +56,24 @@ export const CONFIG = {
   leftTargetRate: 0.5, // among non-catch trials
 
   // Timings (ms)
-  fixationMsMin: 500,
-  fixationMsMax: 800,
-  cueLeadMs: 180,
-  cueDurationMs: 120,
+  fixationMsMin: 600,
+  fixationMsMax: 900,
+  cueLeadMs: 220,
+  cueDurationMs: 150,
   targetMs: 130,
   responseWindowMs: 1500,
-  itiMs: 400,
+  /** Inter-trial gap (visible countdown). Was 400ms — too fast to read. */
+  itiMs: 1000,
+  itiMsMin: 800,
+  itiMsMax: 1200,
+  feedbackMs: 750,
+  conditionCompleteMs: 0, // 0 = wait for Continue button
+
+  /**
+   * pacedMode: require Space to arm each next trial after feedback.
+   * Default true so Optimize never feels like a rapid-fire blur.
+   */
+  pacedMode: true,
 
   // Audio
   cueFrequencyHz: 880,
