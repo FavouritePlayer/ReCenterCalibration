@@ -21,7 +21,7 @@ npm run preview  # serve dist on :4729
 ## Protocol (3 screens)
 
 1. **Localization** — randomized azimuth tones; report perceived direction. Sets `localization_ok` for left-side performance. Poor localization warns that cueing may not help.
-2. **Angle optimization** — candidate left angles `{-30, -45, -60}°` + **NO-CUE** baseline. Fixation → HRTF cue (cued blocks) → brief L/R visual target → `F`/`J`. Catch trials ~18%. Metrics: left hit rate (primary), right hit rate, median correct RT, FA rate. Then a **separate held-out** block.
+2. **Angle optimization** — candidate left angles `{-30, -45, -60}°` + **NO-CUE** baseline. You start each condition with **Start block** (nothing auto-fires). Phases are labeled in place: Fixation → Cue → Target → Respond → Feedback; default **paced** mode uses Space between trials (~1s gap). Catch trials ~18%. Metrics: left hit rate (primary), right hit rate, median correct RT, FA rate. After each condition: left-hit interstitial. Then a **separate held-out** pass.
 3. **Result & export** — picks the angle with the clearest LEFT-detection gain over no-cue **if** `localization_ok` and no large right-hit drop / FA spike. Otherwise a conservative default labeled **exploratory / no clear benefit** (never fakes a winner). Download JSON + `localStorage`.
 
 Optional **EEG archive** panel: static PNGs/CSV from `neurohack-dataset` — labeled archival / not live / not in the control loop.
