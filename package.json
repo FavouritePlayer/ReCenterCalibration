@@ -1,0 +1,15 @@
+{
+  "name": "recenter-calibration",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "ReCenter Calibration Studio — HRTF spatial-cue angle personalization for left-side detection",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^8.3.4"
+  }
+}
